@@ -5,7 +5,6 @@
 #include <iostream>
 #include "Paws.h"
 #include <string>
-
 #include <Windows.h>
 #include <conio.h>
 
@@ -14,14 +13,39 @@ using namespace std;
 enum Flags { Quiet, Verbose };
 
 // Forward Declarations:
-void DisplayUsage();
+void DisplayUsage(bool fVTEnabled);
 wstring GetErrorMessage();
+
+// Globals:
+wstring szVTReset{};
+wstring szVTYellow{};
+wstring szVTGreen{};
+wstring szVTRed{};
 
 int wmain(int argc, wchar_t* argv[])
 {
+	// Enable Console VT Processing
+	DWORD consoleMode{};
+	HRESULT hr{ E_UNEXPECTED };
+	HANDLE hConsole = { GetStdHandle(STD_OUTPUT_HANDLE) };
+	GetConsoleMode(hConsole, &consoleMode);
+	hr = SetConsoleMode(hConsole, consoleMode | ENABLE_VIRTUAL_TERMINAL_PROCESSING)
+		? S_OK
+		: GetLastError();
+	bool fVTEnabled = S_OK == hr;
+
+	// Configure color strings if VT is enabled
+	if (fVTEnabled)
+	{
+		szVTReset.assign(L"\x1b[m");
+		szVTYellow.assign(L"\x1b[33m");
+		szVTGreen.assign(L"\x1b[32m");
+		szVTRed.assign(L"\x1b[31m");
+	}
+
 	if (argc < 2)
 	{
-		DisplayUsage();
+		DisplayUsage(fVTEnabled);
 	}
 	else
 	{
@@ -33,13 +57,10 @@ int wmain(int argc, wchar_t* argv[])
 		size_t nLength{ strFullCommandLine.length() - strThisExe.length() - 1 };
 		wstring strCommandLine{ strFullCommandLine.substr(nStart, nLength) };
 
-		wcout << "Executing '" << strCommandLine << "'" << endl;
-
-		STARTUPINFO si{};
-		si.cb = sizeof(si);
-
+		// Launch the requested executable
+		wcout << szVTYellow << "Paws is executing: '" << szVTGreen << strCommandLine << szVTYellow << "'" << szVTReset << endl;
+		STARTUPINFO si{si.cb = sizeof(STARTUPINFO)};
 		PROCESS_INFORMATION pi{};
-
 		if (CreateProcess(
 			NULL,
 			const_cast<LPWSTR>(strCommandLine.c_str()),
@@ -52,27 +73,30 @@ int wmain(int argc, wchar_t* argv[])
 			&si,
 			&pi))
 		{
-			WaitForSingleObject(pi.hProcess, 10*1000);
-
-			wcout << endl;
-			wcout << "Press any key to exit ...";
-			while (0 == _kbhit());
+			// Wait for the executable to complete
+			WaitForSingleObject(pi.hProcess, INFINITE);
 		}
 		else
 		{
-			wcout << L"Error: Failed to execute the requested executable:" << GetErrorMessage() << endl;
+			wcout << szVTRed << L"Error: Paws failed to execute:" << GetErrorMessage() << szVTReset << endl;
 		}
 	}
+
+	//	Wait until the user hits a key before exiting
+	wcout << endl;
+	wcout << szVTYellow << "Paws-ed: Press any key to exit ..." << szVTReset << endl;
+	while (0 == _kbhit());
 }
 
-void DisplayUsage()
+void DisplayUsage(bool fVTEnabled)
 {
-	wcout << "Paws - Runs specified executable, and then pauses before closing" << endl;
-	wcout << "Usage: Paws[.exe] <executable>" << endl;
+	wcout << szVTYellow << "Paws" << szVTReset << ": Runs the specified executable, and then pauses before closing" << endl;
+	wcout << "Usage: " << szVTYellow << "Paws" << szVTReset << "[.exe] <" << szVTGreen << "executable"<< szVTReset << "> <" << szVTGreen << "args" << szVTReset << ">" << endl;
 	wcout << endl;
-	wcout << "    <executable> : Name or absolute path to the executable" << endl;
-	wcout << "                   to be run. If name is used, executable must" << endl;
-	wcout << "                   be reachable on the current path" << endl;
+	wcout << "    executable : Name or absolute path to the executable" << endl;
+	wcout << "                 to be run. If name is used, executable must" << endl;
+	wcout << "                 be reachable on the current path" << endl;
+	wcout << "    args       : Arguments to be passed to the executable" << endl;
 	wcout << endl;
 }
 
@@ -94,7 +118,7 @@ wstring GetErrorMessage()
 		0, NULL);
 
 	wstring msg{ lpMsgBuf };
-	
+
 	LocalFree(lpMsgBuf);
 
 	return msg;
