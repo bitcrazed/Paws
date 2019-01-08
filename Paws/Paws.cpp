@@ -45,7 +45,7 @@ int wmain(int argc, wchar_t* argv[])
 
 	if (argc < 2)
 	{
-		DisplayUsage(fVTEnabled);
+		DisplayUsage();
 	}
 	else
 	{
@@ -88,7 +88,7 @@ int wmain(int argc, wchar_t* argv[])
 	while (0 == _kbhit());
 }
 
-void DisplayUsage(bool fVTEnabled)
+void DisplayUsage()
 {
 	wcout << szVTYellow << "Paws" << szVTReset << ": Runs the specified executable, and then pauses before closing" << endl;
 	wcout << "Usage: " << szVTYellow << "Paws" << szVTReset << "[.exe] <" << szVTGreen << "executable"<< szVTReset << "> <" << szVTGreen << "args" << szVTReset << ">" << endl;
