@@ -1,6 +1,9 @@
 # Paws
 Paws is a simple tool to run a specified executable and then pause before terminating.
 
+# Build Status
+[![Build Status](https://bitcrazed.visualstudio.com/bitcrazed-ci/_apis/build/status/bitcrazed.Paws?branchName=master)](https://bitcrazed.visualstudio.com/bitcrazed-ci/_build/latest?definitionId=1?branchName=master)
+
 # Usage
 ```Paws[.exe] <executable> [<args>] ```
 
