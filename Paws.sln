@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28315.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Paws", "Paws\Paws.vcxproj", "{344F6FFE-081B-4CEA-9C8F-C6C06DB49720}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{344F6FFE-081B-4CEA-9C8F-C6C06DB49720}.Debug|x64.ActiveCfg = Debug|x64
+		{344F6FFE-081B-4CEA-9C8F-C6C06DB49720}.Debug|x64.Build.0 = Debug|x64
+		{344F6FFE-081B-4CEA-9C8F-C6C06DB49720}.Debug|x86.ActiveCfg = Debug|Win32
+		{344F6FFE-081B-4CEA-9C8F-C6C06DB49720}.Debug|x86.Build.0 = Debug|Win32
+		{344F6FFE-081B-4CEA-9C8F-C6C06DB49720}.Release|x64.ActiveCfg = Release|x64
+		{344F6FFE-081B-4CEA-9C8F-C6C06DB49720}.Release|x64.Build.0 = Release|x64
+		{344F6FFE-081B-4CEA-9C8F-C6C06DB49720}.Release|x86.ActiveCfg = Release|Win32
+		{344F6FFE-081B-4CEA-9C8F-C6C06DB49720}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3FBCC963-3FB9-4F83-9779-C4F981C2D8BC}
+	EndGlobalSection
+EndGlobal
