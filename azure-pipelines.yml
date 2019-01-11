@@ -27,7 +27,8 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-- task: VSTest@2
+- task: PublishPipelineArtifact@0
+  displayName: Publish artifacts
   inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    artifactName: '$(BuildPlatform)-$(BuildConfiguration)'
+    targetPath: '$(BuildConfiguration)\$(buildPlatform)'
