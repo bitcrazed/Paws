@@ -31,4 +31,4 @@ steps:
   displayName: Publish artifacts
   inputs:
     artifactName: '$(BuildPlatform)-$(BuildConfiguration)'
-    targetPath: '$(BuildConfiguration)\$(buildPlatform)'
+    targetPath: '$(BuildPlatform)\$(BuildConfiguration)'
