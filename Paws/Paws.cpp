@@ -14,6 +14,8 @@ enum Flags { Quiet, Verbose };
 
 // Forward Declarations:
 void DisplayUsage(bool fVTEnabled);
+void PauseBeforeClosing();
+bool EnableVTProcessing();
 wstring GetErrorMessage();
 
 // Globals:
@@ -25,14 +27,7 @@ wstring szVTRed{};
 int wmain(int argc, wchar_t* argv[])
 {
 	// Enable Console VT Processing
-	DWORD consoleMode{};
-	HRESULT hr{ E_UNEXPECTED };
-	HANDLE hConsole = { GetStdHandle(STD_OUTPUT_HANDLE) };
-	GetConsoleMode(hConsole, &consoleMode);
-	hr = SetConsoleMode(hConsole, consoleMode | ENABLE_VIRTUAL_TERMINAL_PROCESSING)
-		? S_OK
-		: GetLastError();
-	bool fVTEnabled = S_OK == hr;
+	bool fVTEnabled = EnableVTProcessing();
 
 	// Configure color strings if VT is enabled
 	if (fVTEnabled)
@@ -83,6 +78,12 @@ int wmain(int argc, wchar_t* argv[])
 	}
 
 	//	Wait until the user hits a key before exiting
+	PauseBeforeClosing();
+}
+
+void PauseBeforeClosing()
+{
+	EnableVTProcessing();
 	wcout << endl;
 	wcout << szVTYellow << "Paws-ed: Press any key to exit ..." << szVTReset << endl;
 	while (0 == _kbhit());
@@ -122,4 +123,16 @@ wstring GetErrorMessage()
 	LocalFree(lpMsgBuf);
 
 	return msg;
+}
+
+bool EnableVTProcessing()
+{
+	DWORD consoleMode{};
+	HRESULT hr{ E_UNEXPECTED };
+	HANDLE hConsole = { GetStdHandle(STD_OUTPUT_HANDLE) };
+	GetConsoleMode(hConsole, &consoleMode);
+	hr = SetConsoleMode(hConsole, consoleMode | ENABLE_VIRTUAL_TERMINAL_PROCESSING)
+		? S_OK
+		: GetLastError();
+	return S_OK == hr;
 }
