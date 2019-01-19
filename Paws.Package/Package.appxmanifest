@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities" IgnorableNamespaces="uap rescap">
-  <Identity Name="38596BitCrazed.PawsLauncher" Publisher="CN=BF63C108-07DB-4511-B5F7-08A543DBE718" Version="1.0.0.0" />
+  <Identity Name="38596BitCrazed.PawsLauncher" Publisher="CN=BF63C108-07DB-4511-B5F7-08A543DBE718" Version="1.0.1.0" />
   <Properties>
     <DisplayName>Paws Launcher</DisplayName>
     <PublisherDisplayName>BitCrazed</PublisherDisplayName>
