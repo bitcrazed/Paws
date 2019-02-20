@@ -52,7 +52,7 @@ int wmain(int argc, wchar_t* argv[])
 		size_t nLength{ strFullCommandLine.length() - strThisExe.length() - 1 };
 		wstring strCommandLine{ strFullCommandLine.substr(nStart, nLength) };
 
-		// Launch the requested executable
+		// Launch the requested command
 		wcout << szVTYellow << "Paws is executing: '" << szVTGreen << strCommandLine << szVTYellow << "'" << szVTReset << endl;
 		STARTUPINFO si{si.cb = sizeof(STARTUPINFO)};
 		PROCESS_INFORMATION pi{};
@@ -91,14 +91,11 @@ void PauseBeforeClosing()
 
 void DisplayUsage(bool fVTEnabled)
 {
-	wcout << szVTYellow << "Paws" << szVTReset << ": Runs the specified executable, and then pauses before closing" << endl;
-	wcout << "Usage: " << szVTYellow << "Paws" << szVTReset << "[.exe] <" << szVTGreen << "executable"<< szVTReset << "> <" << szVTGreen << "args" << szVTReset << ">" << endl;
+	wcout << szVTYellow << "Paws" << szVTReset << ": Runs the specified command, and then pauses before closing" << endl;
+	wcout << "Usage: " << szVTYellow << "Paws" << szVTReset << "[.exe] <" << szVTGreen << "command"<< szVTReset << "> <" << szVTGreen << "args" << szVTReset << ">" << endl;
 	wcout << endl;
-	wcout << "    executable : Name or absolute path to the executable" << endl;
-	wcout << "                 to be run. If name is used, executable must" << endl;
-	wcout << "                 be reachable on the current path" << endl;
-	wcout << "    args       : Arguments to be passed to the executable" << endl;
-	wcout << endl;
+	wcout << "    command : Command to be run. If an executable is specified, it must be reachable on the current path" << endl;
+	wcout << "    args    : Arguments to be passed to the executable" << endl;
 }
 
 wstring GetErrorMessage()
