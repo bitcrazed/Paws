@@ -40,7 +40,7 @@ int wmain(int argc, wchar_t* argv[])
 
 	if (argc < 2)
 	{
-		DisplayUsage(fVTEnabled);
+		DisplayUsage();
 	}
 	else
 	{
@@ -89,7 +89,7 @@ void PauseBeforeClosing()
 	while (0 == _kbhit());
 }
 
-void DisplayUsage(bool fVTEnabled)
+void DisplayUsage()
 {
 	wcout << szVTYellow << "Paws" << szVTReset << ": Runs the specified command, and then pauses before closing" << endl;
 	wcout << "Usage: " << szVTYellow << "Paws" << szVTReset << "[.exe] <" << szVTGreen << "command"<< szVTReset << "> <" << szVTGreen << "args" << szVTReset << ">" << endl;
