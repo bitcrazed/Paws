@@ -46,11 +46,10 @@ int main()
 	if (fVTEnabled == false)
 		colors.clear();
 
-	// Extract the command-line without the name of this executable:
-	LPWSTR szCommandLine{ GetCmdLnSkipFirstToken() };
-
-	if (szCommandLine == nullptr)
-		DisplayUsage(colors);
+	if (argc < 2)
+	{
+		DisplayUsage();
+	}
 	else
 	{
 		// Launch the requested command
@@ -96,7 +95,7 @@ void PauseBeforeClosing(const VTColors& colors)
 	std::wcout << std::endl;
 }
 
-void DisplayUsage(const VTColors& colors)
+void DisplayUsage()
 {
 	std::wcout << colors.strVTYellow << L"Paws" << colors.strVTReset << L": Runs the specified command, and then pauses before closing\n"
 		L"Usage: " << colors.strVTYellow << L"Paws" << colors.strVTReset << L"[.exe] <" << colors.strVTGreen << L"command" << colors.strVTReset << L"> <" << colors.strVTGreen << L"args" << colors.strVTReset << L">\n\n"
