@@ -32,6 +32,8 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
+
+
 - task: GitHubRelease@1
   inputs:
     gitHubConnection: 'Github Connection'
