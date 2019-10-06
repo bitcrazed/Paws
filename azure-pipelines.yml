@@ -11,7 +11,7 @@ pool:
 
 variables:
   solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
+  buildPlatform: 'x86'
   buildConfiguration: 'Release'
 
 steps:
@@ -31,3 +31,13 @@ steps:
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+
+- task: GitHubRelease@1
+  inputs:
+    gitHubConnection: 'Github Connection'
+    repositoryName: 'bitcrazed/Paws'
+    action: 'create'
+    target: '$(Build.SourceVersion)'
+    tagSource: 'gitTag'
+    changeLogCompareToRelease: 'lastFullRelease'
+    changeLogType: 'commitBased'
