@@ -20,7 +20,7 @@ struct VTColors
 	std::wstring strVTRed{ L"\x1b[31m" };
 
 	// Clears the VT strings
-	void Clear()
+	void clear()
 	{
 		strVTReset.empty();
 		strVTYellow.empty();
@@ -45,7 +45,7 @@ int wmain(int argc, wchar_t* argv[])
 	VTColors colors{};
 	if (false == EnableVTProcessing())
 	{
-		colors.Clear();
+		colors.clear();
 	}
 
 	if (argc < 2)
