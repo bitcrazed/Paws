@@ -6,6 +6,7 @@
 #include <string>
 #include <Windows.h>
 #include <conio.h>
+#include <wchar.h>
 
 #ifndef ENABLE_VIRTUAL_TERMINAL_PROCESSING
 #define ENABLE_VIRTUAL_TERMINAL_PROCESSING ((DWORD)0x4)
@@ -18,74 +19,68 @@ struct VTColors
 	std::wstring strVTGreen{ L"\x1b[32m" };
 	std::wstring strVTRed{ L"\x1b[31m" };
 
-	void clear()
+	// Clears the VT strings
+	void Clear()
 	{
-		strVTReset.clear();
-		strVTYellow.clear();
-		strVTGreen.clear();
-		strVTRed.clear();
+		strVTReset.empty();
+		strVTYellow.empty();
+		strVTGreen.empty();
+		strVTRed.empty();
 	}
 };
 
-// Forward Declarations:
+// Function Declarations:
+bool EnableVTProcessing();
 void DisplayUsage(const VTColors& colors);
 void PauseBeforeClosing(const VTColors& colors);
-bool EnableVTProcessing();
-std::wstring GetErrorMessage(DWORD dwErrorCode);
-LPWSTR GetCmdLnSkipFirstToken();
+std::wstring GetErrorMessage(const DWORD dwErrorCode);
+std::wstring GetCommandlineToExecute();
+DWORD LaunchProcess(const VTColors& colors, const std::wstring& cmdline);
 
-int main()
+int wmain(int argc, wchar_t* argv[])
 {
-	DWORD dwExitCode{};
+	DWORD result{};
+
+	// Clear color strings if VT is disabled
 	VTColors colors{};
-
-	// Enable Console VT Processing
-	bool fVTEnabled = EnableVTProcessing();
-
-	// Configure color strings if VT is disabled
-	if (fVTEnabled == false)
-		colors.clear();
+	if (false == EnableVTProcessing())
+	{
+		colors.Clear();
+	}
 
 	if (argc < 2)
 	{
-		DisplayUsage();
+		DisplayUsage(colors);
+		result = EXIT_FAILURE;
 	}
 	else
 	{
+		std::wstring cmdline{ GetCommandlineToExecute() };
+
 		// Launch the requested command
-		std::wcout << colors.strVTYellow << L"Paws is executing: '" << colors.strVTGreen << szCommandLine << colors.strVTYellow << L'\'' << colors.strVTReset << std::endl;
-		STARTUPINFOW si{ sizeof(STARTUPINFOW) };
-		PROCESS_INFORMATION pi{};
-		if (
-			CreateProcessW(
-				nullptr,
-				szCommandLine,
-				nullptr,
-				nullptr,
-				TRUE,
-				0,
-				nullptr,
-				nullptr,
-				&si,
-				&pi
-			) != FALSE)
+		std::wcout
+			<< colors.strVTYellow
+			<< L"Paws is executing '" << cmdline << "'"
+			<< L'\''
+			<< colors.strVTReset
+			<< std::endl;
+
+		result = LaunchProcess(colors, cmdline);
+		if(0 != result)
 		{
-			// Wait for the executable to complete
-			WaitForSingleObject(pi.hProcess, INFINITE);
-			GetExitCodeProcess(pi.hProcess, &dwExitCode);
-			CloseHandle(pi.hThread);
-			CloseHandle(pi.hProcess);
-		}
-		else
-		{
-			dwExitCode = GetLastError();
-			std::wcerr << colors.strVTRed << L"Error: Paws failed to execute: " << GetErrorMessage(dwExitCode) << colors.strVTReset << std::endl;
+			std::wcerr 
+				<< colors.strVTRed 
+				<< L"Error: Paws failed to execute: " 
+				<< GetErrorMessage(result) 
+				<< colors.strVTReset 
+				<< std::endl;
 		}
 	}
 
 	//	Wait until the user hits a key before exiting
 	PauseBeforeClosing(colors);
-	return static_cast<int>(dwExitCode);
+
+	return result;
 }
 
 void PauseBeforeClosing(const VTColors& colors)
@@ -95,9 +90,10 @@ void PauseBeforeClosing(const VTColors& colors)
 	std::wcout << std::endl;
 }
 
-void DisplayUsage()
+void DisplayUsage(const VTColors& colors)
 {
-	std::wcout << colors.strVTYellow << L"Paws" << colors.strVTReset << L": Runs the specified command, and then pauses before closing\n"
+	std::wcout 
+		<< colors.strVTYellow << L"Paws" << colors.strVTReset << L": Runs the specified command, and then pauses before closing\n"
 		L"Usage: " << colors.strVTYellow << L"Paws" << colors.strVTReset << L"[.exe] <" << colors.strVTGreen << L"command" << colors.strVTReset << L"> <" << colors.strVTGreen << L"args" << colors.strVTReset << L">\n\n"
 		L"    command : Command to be run. If an executable is specified, it must be reachable on the current path\n"
 		L"    args    : Arguments to be passed to the executable" << std::endl;
@@ -109,7 +105,9 @@ std::wstring GetErrorMessage(DWORD dwErrorCode)
 	std::wstring msg{};
 	if (
 		FormatMessageW(
-			FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+			FORMAT_MESSAGE_ALLOCATE_BUFFER 
+				| FORMAT_MESSAGE_FROM_SYSTEM 
+				| FORMAT_MESSAGE_IGNORE_INSERTS,
 			nullptr,
 			dwErrorCode,
 			MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
@@ -129,43 +127,61 @@ bool EnableVTProcessing()
 {
 	DWORD consoleMode{};
 	HANDLE hConsole = { GetStdHandle(STD_OUTPUT_HANDLE) };
-	return (GetConsoleMode(hConsole, &consoleMode) != FALSE &&
-		SetConsoleMode(hConsole, consoleMode | ENABLE_VIRTUAL_TERMINAL_PROCESSING) != FALSE);
+	return (FALSE != GetConsoleMode(hConsole, &consoleMode)
+		&& FALSE != SetConsoleMode(hConsole, consoleMode | ENABLE_VIRTUAL_TERMINAL_PROCESSING));
 }
 
-LPWSTR GetCmdLnSkipFirstToken()
+std::wstring GetCommandlineToExecute()
 {
-	static LPWSTR cmdLn{};
-	bool isInQuotes{};
-	bool isInToken{};
-	DWORD tokensCnt{};
-
-	if (cmdLn == nullptr)
-		cmdLn = GetCommandLineW();
-
-	for (LPWCH cursor{ cmdLn }; *cursor != L'\0'; ++cursor)
+	std::wstring result{};
+	LPWSTR cmdline{ GetCommandLineW() };
+	int argc{};
+	LPWSTR* argv{ CommandLineToArgvW(cmdline, &argc) };
+	
+	// Check if we have any args to play with
+	if (NULL != argv && argc > 1)
 	{
-		switch (*cursor)
+		// Append all the args with spaces between them
+		for (int i = 1; i < argc; i++)
 		{
-		case L' ': case L'\t': // Token separators, unless in a quoted substring
-			if (isInQuotes == false)
-				isInToken = false;
-			break;
-
-		case L'\"':
-			isInQuotes = !isInQuotes;
-		default: // This includes quotation marks
-			if (isInToken == false)
-			{
-				++tokensCnt;
-				if (tokensCnt > 1) // That is, the cursor points to the beginning of the second token
-					return cursor;
-
-				isInToken = true;
-			}
-			break;
+			result.append(argv[i]);
+			result.append(L" ");
 		}
+
+		// Cleanup before we return
+		LocalFree(argv);
 	}
 
-	return nullptr;
+	return result;
+}
+
+DWORD LaunchProcess(const VTColors& colors, const std::wstring& cmdline)
+{
+	DWORD result{};
+	PROCESS_INFORMATION pi{};
+	STARTUPINFOW si{ sizeof(STARTUPINFOW) };
+	if (
+		CreateProcessW(
+			nullptr,
+			const_cast<LPWSTR>(cmdline.c_str()),
+			nullptr,
+			nullptr,
+			TRUE,
+			0,
+			nullptr,
+			nullptr,
+			&si,
+			&pi
+		) != FALSE)
+	{
+		// Wait for the executable to complete
+		WaitForSingleObject(pi.hProcess, INFINITE);
+
+		// Clean-up on the way out
+		GetExitCodeProcess(pi.hProcess, &result);
+		CloseHandle(pi.hThread);
+		CloseHandle(pi.hProcess);
+	}
+
+	return result;
 }
