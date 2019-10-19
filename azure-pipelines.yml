@@ -33,3 +33,8 @@ steps:
     solution: '$(solution)'
     platform: '$(buildx64)'
     configuration: '$(buildConfiguration)'
+
+- task: CopyFiles@2
+  inputs:
+    Contents: '**\$(BuildConfiguration)\**\?(*.exe|*.dll|*.pdb)'
+    TargetFolder: 
