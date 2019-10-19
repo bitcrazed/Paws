@@ -58,8 +58,8 @@ steps:
     action: 'create'
     target: '$(Build.SourceVersion)'
     tagSource: 'userSpecifiedTag'
-    tag: 'v$(MajorVersion).$(MinorVersion).$(IncrementReleaseTagNumber)'
-    title: 'v$(MajorVersion).$(MinorVersion).$(IncrementReleaseTagNumber)'
+    tag: 'v$(majorVersion).$(minorVersion).$(Rev:.r)$(versionSuffix)'
+    title: 'v$(majorVersion).$(minorVersion).$(Rev:.r)$(versionSuffix)'
     releaseNotesFilePath: '$(System.DefaultWorkingDirectory)/CHANGELOG.md'
     isDraft: true
     isPreRelease: true
