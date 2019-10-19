@@ -59,7 +59,7 @@ steps:
     target: '$(Build.SourceVersion)'
     tagSource: 'userSpecifiedTag'
     tag: '$(Build.SourceVersion)'
-    title: '$(Date:yyyyMMdd)_v$(majorVersion).$(minorVersion).$(incrementReleaseTagNumber)$(versionSuffix)'
+    title: 'v$(majorVersion).$(minorVersion).$(incrementReleaseTagNumber)$(versionSuffix)'
     releaseNotesSource: 'inline'
     isDraft: true
     isPreRelease: true
