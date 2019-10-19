@@ -16,8 +16,8 @@ variables:
   buildConfiguration: 'Release'
   majorVersion: 1
   minorVersion: 0
-  versionSuffix: '-preview'
   incrementReleaseTagNumber: $[counter(variables['InitialReleaseTagNumber'], 0)]
+  versionSuffix: '-preview'
 
 name: $(BuildDefinitionName)_$(SourceBranchName)_$(Date:yyyyMMdd)_v$(majorVersion).$(minorVersion).$(Rev:.r)$(versionSuffix)
 
@@ -58,8 +58,8 @@ steps:
     action: 'create'
     target: '$(Build.SourceVersion)'
     tagSource: 'userSpecifiedTag'
-    tag: 'v$(majorVersion).$(minorVersion).$(Rev:.r)$(versionSuffix)'
-    title: 'v$(majorVersion).$(minorVersion).$(Rev:.r)$(versionSuffix)'
+    tag: '$(Build.SourceVersion)'
+    title: '$(Date:yyyyMMdd)_v$(majorVersion).$(minorVersion).$(incrementReleaseTagNumber)$(versionSuffix)'
     releaseNotesSource: 'inline'
     isDraft: true
     isPreRelease: true
