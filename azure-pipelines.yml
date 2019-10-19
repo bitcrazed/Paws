@@ -14,6 +14,12 @@ variables:
   buildx86: 'x86'
   buildx64: 'x64'
   buildConfiguration: 'Release'
+  majorVersion: 1
+  minorVersion: 0
+  versionSuffix: -preview
+  incrementReleaseTagNumber: $[counter(variables['InitialReleaseTagNumber'], 0)]
+
+name: $(BuildDefinitionName)_$(SourceBranchName)_$(Date:yyyyMMdd)_v$(majorVersion).$(minorVersion).$(Rev:.r)$(versionSuffix)
 
 steps:
 - task: NuGetToolInstaller@1
