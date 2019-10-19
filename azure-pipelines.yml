@@ -61,7 +61,7 @@ steps:
     tag: '$(Build.SourceVersion)'
     title: '$(Date:yyyyMMdd)_v$(majorVersion).$(minorVersion).$(incrementReleaseTagNumber)$(versionSuffix)'
     releaseNotesSource: 'inline'
-    assets: '$(Build.ArtifactStagingDirectory)\*'
+    assets: '$(Build.ArtifactStagingDirectory)/*'
     isDraft: true
     isPreRelease: true
     changeLogCompareToRelease: 'lastFullRelease'
