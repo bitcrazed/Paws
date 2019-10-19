@@ -36,5 +36,11 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    Contents: '**\$(BuildConfiguration)\**\?(*.exe|*.dll|*.pdb)'
-    TargetFolder: 
+    sourceFolder: '$(Build.SourcesDirectory)'
+    contents: '**/$(BuildConfiguration)/**/?(*.exe|*.dll|*.pdb)'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    artifactName: drop
