@@ -51,7 +51,9 @@ steps:
     repositoryName: '$(Build.Repository.Name)'
     action: 'create'
     target: '$(Build.SourceVersion)'
-    tagSource: 'gitTag'
+    tagSource: 'userSpecifiedTag'
+    tag: 'v$(MajorVersion).$(MinorVersion).$(IncrementReleaseTagNumber)'
+    title: 'v$(MajorVersion).$(MinorVersion).$(IncrementReleaseTagNumber)'
     releaseNotesFilePath: '$(System.DefaultWorkingDirectory)/**/CHANGELOG.md'
     isDraft: true
     isPreRelease: true
