@@ -59,8 +59,9 @@ steps:
     target: '$(Build.SourceVersion)'
     tagSource: 'userSpecifiedTag'
     tag: '$(Build.SourceVersion)'
-    title: 'v$(majorVersion).$(minorVersion).$(incrementReleaseTagNumber)$(versionSuffix)'
+    title: '$(Date:yyyyMMdd)_v$(majorVersion).$(minorVersion).$(incrementReleaseTagNumber)$(versionSuffix)'
     releaseNotesSource: 'inline'
+    assets: '$(Build.ArtifactStagingDirectory)\*'
     isDraft: true
     isPreRelease: true
     changeLogCompareToRelease: 'lastFullRelease'
