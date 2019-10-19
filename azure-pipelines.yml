@@ -44,3 +44,16 @@ steps:
   inputs:
     pathtoPublish: '$(Build.ArtifactStagingDirectory)'
     artifactName: drop
+
+- task: GitHubRelease@1
+  inputs:
+    gitHubConnection: 'Github Connection'
+    repositoryName: '$(Build.Repository.Name)'
+    action: 'create'
+    target: '$(Build.SourceVersion)'
+    tagSource: 'gitTag'
+    releaseNotesFilePath: '$(System.DefaultWorkingDirectory)/**/CHANGELOG.md'
+    isDraft: true
+    isPreRelease: true
+    changeLogCompareToRelease: 'lastFullRelease'
+    changeLogType: 'commitBased'
