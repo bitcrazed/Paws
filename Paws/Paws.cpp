@@ -35,7 +35,7 @@ void DisplayUsage(const VTColors& colors);
 void PauseBeforeClosing(const VTColors& colors);
 std::wstring GetErrorMessage(const DWORD dwErrorCode);
 std::wstring GetCommandlineToExecute();
-DWORD LaunchProcess(const VTColors& colors, const std::wstring& cmdline);
+DWORD LaunchProcess(const std::wstring& cmdline);
 
 int wmain(int argc, wchar_t* argv[])
 {
@@ -65,7 +65,7 @@ int wmain(int argc, wchar_t* argv[])
 			<< colors.strVTReset
 			<< std::endl;
 
-		result = LaunchProcess(colors, cmdline);
+		result = LaunchProcess(cmdline);
 		if(0 != result)
 		{
 			std::wcerr 
@@ -92,11 +92,13 @@ void PauseBeforeClosing(const VTColors& colors)
 
 void DisplayUsage(const VTColors& colors)
 {
-	std::wcout 
-		<< colors.strVTYellow << L"Paws" << colors.strVTReset << L": Runs the specified command, and then pauses before closing\n"
-		L"Usage: " << colors.strVTYellow << L"Paws" << colors.strVTReset << L"[.exe] <" << colors.strVTGreen << L"command" << colors.strVTReset << L"> <" << colors.strVTGreen << L"args" << colors.strVTReset << L">\n\n"
-		L"    command : Command to be run. If an executable is specified, it must be reachable on the current path\n"
-		L"    args    : Arguments to be passed to the executable" << std::endl;
+	std::wcout
+		<< colors.strVTYellow << L"Paws" << colors.strVTReset << L": Runs the specified command, and then pauses before closing" << std::endl
+		<< L"Usage: " << colors.strVTYellow << L"Paws" << colors.strVTReset << L"[.exe] <" 
+		<< colors.strVTGreen << L"target" << colors.strVTReset << L"> <" 
+		<< colors.strVTGreen << L"args" << colors.strVTReset << L">" << std::endl << std::endl
+		<< L"    target : Command/executable to be run" << std::endl
+		<< L"    args    : Arguments to be passed to the command/executable" << std::endl;
 }
 
 std::wstring GetErrorMessage(DWORD dwErrorCode)
@@ -155,7 +157,7 @@ std::wstring GetCommandlineToExecute()
 	return result;
 }
 
-DWORD LaunchProcess(const VTColors& colors, const std::wstring& cmdline)
+DWORD LaunchProcess(const std::wstring& cmdline)
 {
 	DWORD result{};
 	PROCESS_INFORMATION pi{};
