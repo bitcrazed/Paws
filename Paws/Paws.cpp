@@ -1,4 +1,4 @@
-// Paws.cpp : This file contains the 'main' function. Program execution begins and ends there.
+﻿// Paws.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
 #include "pch.h"
@@ -85,8 +85,8 @@ int wmain(int argc, wchar_t* argv[])
 
 void PauseBeforeClosing(const VTColors& colors)
 {
-	std::wcout << colors.strVTYellow << L"\nPaws-ed: Press any key to exit . . . " << colors.strVTReset << std::flush;
-	static_cast<void>(_getwch());
+	std::wcout << colors.strVTYellow << std::endl << L"Paws-ed: Press any key to exit . . . " << colors.strVTReset << std::flush;
+	static_cast<void>(_getch());
 	std::wcout << std::endl;
 }
 
