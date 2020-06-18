@@ -58,5 +58,5 @@ steps:
     repositoryName: '$(Build.Repository.Name)'
     action: 'create'
     target: '$(Build.SourceVersion)'
-    tagSource: 'gitTag'
+    tagSource: 'manual'
     tag: 'v$(MajorVersion).$(MinorVersion).$(incrementalReleaseNumber)-$(versionSuffix)'
