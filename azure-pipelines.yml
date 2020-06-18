@@ -50,19 +50,3 @@ steps:
   inputs:
     pathtoPublish: '$(Build.ArtifactStagingDirectory)'
     artifactName: drop
-
-- task: GitHubRelease@1
-  inputs:
-    gitHubConnection: 'Github Connection'
-    repositoryName: '$(Build.Repository.Name)'
-    action: 'create'
-    target: '$(Build.SourceVersion)'
-    tagSource: 'userSpecifiedTag'
-    tag: '$(Build.SourceVersion)'
-    title: '$(Date:yyyyMMdd)_v$(majorVersion).$(minorVersion).$(incrementReleaseTagNumber)$(versionSuffix)'
-    releaseNotesSource: 'inline'
-    assets: '$(Build.ArtifactStagingDirectory)/*'
-    isDraft: true
-    isPreRelease: true
-    changeLogCompareToRelease: 'lastFullRelease'
-    changeLogType: 'commitBased'
