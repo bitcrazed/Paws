@@ -58,8 +58,8 @@ steps:
     repositoryName: '$(Build.Repository.Name)'
     action: 'create'
     target: '$(Build.SourceVersion)'
-    tagSource: 'manual'
-    tag: "$(Build.BuildNumber)"
+    tagSource: 'gitTag'
+    tag: 'v$(MajorVersion).$(MinorVersion).$(PatchVersion)'
     releaseNotesSource: 'inline'
     isPreRelease: true
     changeLogCompareToRelease: 'lastFullRelease'
