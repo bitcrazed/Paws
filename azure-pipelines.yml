@@ -22,12 +22,6 @@ variables:
 name: $(BuildDefinitionName)_$(SourceBranchName)_$(Date:yyyyMMdd)_v$(majorVersion).$(minorVersion).$(Rev:.r)$(versionSuffix)
 
 steps:
-- task: NuGetToolInstaller@1
-
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
-
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
