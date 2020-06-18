@@ -4,7 +4,7 @@
 # https://docs.microsoft.com/azure/devops/pipelines/apps/windows/dot-net
 
 trigger:
-- master
+- default
 
 pool:
   vmImage: 'windows-latest'
@@ -52,6 +52,7 @@ steps:
     artifactName: drop
 
 - task: GitHubRelease@1
+  displayName: 'Create GitHub Release'
   inputs:
     gitHubConnection: 'bitcrazed'
     repositoryName: '$(Build.Repository.Name)'
