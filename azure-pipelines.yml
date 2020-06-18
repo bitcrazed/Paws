@@ -55,7 +55,4 @@ steps:
     tagSource: 'userSpecifiedTag'
     tag: 'v$(MajorVersion).$(MinorVersion).$(incrementReleaseTagNumber)$(versionSuffix)'
     assets: |
-      $(Build.ArtifactStagingDirectory)/Release/*.exe
-      $(Build.ArtifactStagingDirectory)/Release/*.pdb
-      $(Build.ArtifactStagingDirectory)/x64/Release/*.exe
-      $(Build.ArtifactStagingDirectory)/x64/Release/*.pdb
+      $(Build.ArtifactStagingDirectory)/*
