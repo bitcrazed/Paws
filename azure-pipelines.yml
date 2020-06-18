@@ -19,7 +19,7 @@ variables:
   incrementReleaseTagNumber: $[counter(variables['InitialReleaseTagNumber'], 0)]
   versionSuffix: '-preview'
 
-name: $(BuildDefinitionName)_$(SourceBranchName)_$(Date:yyyyMMdd)_v$(majorVersion).$(minorVersion).$(Rev:.r)$(versionSuffix)
+name: $(BuildDefinitionName)_$(SourceBranchName)_$(Date:yyyyMMdd)_v$(majorVersion).$(minorVersion).$(Rev:r)$(versionSuffix)
 
 steps:
 - task: VSBuild@1
@@ -53,4 +53,4 @@ steps:
     action: 'create'
     target: '$(Build.SourceVersion)'
     tagSource: 'userSpecifiedTag'
-    tag: 'v$(MajorVersion).$(MinorVersion).$(incrementalReleaseTagNumber)$(versionSuffix)'
+    tag: 'v$(MajorVersion).$(MinorVersion).$(incrementReleaseTagNumber)$(versionSuffix)'
