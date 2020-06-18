@@ -53,4 +53,4 @@ steps:
     action: 'create'
     target: '$(Build.SourceVersion)'
     tagSource: 'userSpecifiedTag'
-    tag: 'v$(MajorVersion).$(MinorVersion).$(incrementalReleaseNumber)-$(versionSuffix)'
+    tag: 'v$(MajorVersion).$(MinorVersion).$(incrementalReleaseTagNumber)$(versionSuffix)'
