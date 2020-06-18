@@ -22,10 +22,12 @@ struct VTColors
 	// Clears the VT strings
 	void clear()
 	{
-		strVTReset.empty();
-		strVTYellow.empty();
-		strVTGreen.empty();
-		strVTRed.empty();
+		bool bResult;
+
+		bResult = strVTReset.empty();
+		bResult = strVTYellow.empty();
+		bResult = strVTGreen.empty();
+		bResult = strVTRed.empty();
 	}
 };
 
