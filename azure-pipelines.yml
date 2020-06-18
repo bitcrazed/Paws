@@ -59,8 +59,4 @@ steps:
     action: 'create'
     target: '$(Build.SourceVersion)'
     tagSource: 'gitTag'
-    tag: 'v$(MajorVersion).$(MinorVersion).$(PatchVersion)'
-    releaseNotesSource: 'inline'
-    isPreRelease: true
-    changeLogCompareToRelease: 'lastFullRelease'
-    changeLogType: 'commitBased'
+    tag: 'v$(MajorVersion).$(MinorVersion).$(incrementalReleaseNumber)-$(versionSuffix)'
