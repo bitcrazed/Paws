@@ -64,3 +64,6 @@ steps:
     isPreRelease: true
     changeLogCompareToRelease: 'lastFullRelease'
     changeLogType: 'commitBased'
+  assets: |
+    $(Build.ArtifactStagingDirectory)/*.exe
+    $(Build.ArtifactStagingDirectory)/*.pdb
