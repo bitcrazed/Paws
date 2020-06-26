@@ -19,15 +19,9 @@ variables:
   incrementReleaseTagNumber: $[counter(variables['InitialReleaseTagNumber'], 0)]
   versionSuffix: '-preview'
 
-name: $(BuildDefinitionName)_$(SourceBranchName)_$(Date:yyyyMMdd)_v$(majorVersion).$(minorVersion).$(Rev:.r)$(versionSuffix)
+name: $(BuildDefinitionName)_$(SourceBranchName)_$(Date:yyyyMMdd)_v$(majorVersion).$(minorVersion).$(Rev:r)$(versionSuffix)
 
 steps:
-- task: NuGetToolInstaller@1
-
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
-
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
@@ -58,9 +52,8 @@ steps:
     repositoryName: '$(Build.Repository.Name)'
     action: 'create'
     target: '$(Build.SourceVersion)'
-    tagSource: 'gitTag'
-    tagPattern: 'release-v1.*'
-    releaseNotesSource: 'inline'
-    isPreRelease: true
-    changeLogCompareToRelease: 'lastFullRelease'
-    changeLogType: 'commitBased'
+    tagSource: 'userSpecifiedTag'
+    tag: 'v$(MajorVersion).$(MinorVersion).$(incrementReleaseTagNumber)$(versionSuffix)'
+    assets: |
+      $(Build.ArtifactStagingDirectory)/**/Release/*.exe
+      $(Build.ArtifactStagingDirectory)/**/Release/*.pdb
