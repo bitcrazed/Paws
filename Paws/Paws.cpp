@@ -37,9 +37,9 @@ std::wstring GetErrorMessage(const DWORD dwErrorCode);
 std::wstring GetCommandlineToExecute();
 DWORD LaunchProcess(const std::wstring& cmdline);
 
-int wmain(int argc, wchar_t* argv[])
+int wmain(int argc, wchar_t**)
 {
-	DWORD result{};
+	int result{};
 
 	// Clear color strings if VT is disabled
 	VTColors colors{};
