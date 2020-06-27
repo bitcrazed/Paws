@@ -162,7 +162,7 @@ DWORD LaunchProcess(const std::wstring& cmdline)
 	DWORD result{};
 	PROCESS_INFORMATION pi{};
 	STARTUPINFOW si{ sizeof(STARTUPINFOW) };
-	if (
+	if (FALSE !=
 		CreateProcessW(
 			nullptr,
 			const_cast<LPWSTR>(cmdline.c_str()),
@@ -174,7 +174,7 @@ DWORD LaunchProcess(const std::wstring& cmdline)
 			nullptr,
 			&si,
 			&pi
-		) != FALSE)
+		))
 	{
 		// Wait for the executable to complete
 		WaitForSingleObject(pi.hProcess, INFINITE);
