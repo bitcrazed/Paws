@@ -11,8 +11,8 @@
 
   <Identity
     Name="Bitcrazed.Paws"
-    Publisher="CN=Rich Turner"
-    Version="1.0.0.0" />
+    Publisher="CN=RichTurner-Dev"
+    Version="1.0.5.0" />
 
   <Properties>
     <DisplayName>Paws</DisplayName>

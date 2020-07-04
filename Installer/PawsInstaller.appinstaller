@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AppInstaller
+	Uri="file:///c:/dev/paws/Installer/PawsInstaller.appinstaller"
+	Version="1.0.5.0" xmlns="http://schemas.microsoft.com/appx/appinstaller/2017/2">
+	<MainBundle
+		Name="Bitcrazed.Paws"
+		Version="1.0.5.0"
+		Publisher="CN=RichTurner-Dev"
+		Uri="file:///c:/dev/paws/Installer/PawsInstaller_1.0.5.0_Test/PawsInstaller_1.0.5.0_x86_x64.msixbundle" />
+	<Dependencies>
+		<Package
+			Name="Microsoft.VCLibs.140.00.UWPDesktop"
+			Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
+			Version="14.0.27810.0"
+			ProcessorArchitecture="x64"
+			Uri="file:///c:/dev/paws/Installer/PawsInstaller_1.0.5.0_Test/Dependencies/x64/Microsoft.VCLibs.x64.14.00.Desktop.appx" />
+		<Package
+			Name="Microsoft.VCLibs.140.00.UWPDesktop"
+			Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
+			Version="14.0.27810.0"
+			ProcessorArchitecture="x86"
+			Uri="file:///c:/dev/paws/Installer/PawsInstaller_1.0.5.0_Test/Dependencies/x86/Microsoft.VCLibs.x86.14.00.Desktop.appx" />
+	</Dependencies>
+	<UpdateSettings>
+		<OnLaunch
+			HoursBetweenUpdateChecks="0" />
+	</UpdateSettings>
+</AppInstaller>
