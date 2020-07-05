@@ -86,7 +86,7 @@ int wmain(int argc, wchar_t**)
 void PauseBeforeClosing(const VTColors& colors)
 {
 	std::wcout << colors.strVTYellow << std::endl << L"Paws-ed: Press any key to exit . . . " << colors.strVTReset << std::flush;
-	static_cast<void>(_getch());
+	_getch();
 	std::wcout << std::endl;
 }
 
@@ -163,7 +163,7 @@ DWORD LaunchProcess(const std::wstring& cmdline)
 	PROCESS_INFORMATION pi{};
 	STARTUPINFOW si{ sizeof(STARTUPINFOW) };
 	if (FALSE !=
-		CreateProcessW(
+		CreateProcess(
 			nullptr,
 			const_cast<LPWSTR>(cmdline.c_str()),
 			nullptr,
