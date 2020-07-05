@@ -1,22 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Package
-  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
-  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
-  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
-  xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
-  xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
-
-  IgnorableNamespaces="uap rescap uap3 desktop">
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" 
+  xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" 
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" 
+  xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3" 
+  xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10" 
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities" 
+  IgnorableNamespaces="uap mp uap3 desktop rescap">
 
   <Identity
-    Name="Bitcrazed.Paws"
-    Publisher="CN=RichTurner-Dev"
-    Version="1.0.5.0" />
+    Name="38596Bitcrazed.PawsLauncher"
+    Publisher="CN=Bitcrazed-Dev"
+    Version="1.0.16.0" />
 
   <Properties>
-    <DisplayName>Paws</DisplayName>
-    <PublisherDisplayName>Rich Turner</PublisherDisplayName>
+    <DisplayName>Paws Launcher</DisplayName>
+    <PublisherDisplayName>Bitcrazed</PublisherDisplayName>
     <Logo>Images\StoreLogo.png</Logo>
   </Properties>
 
@@ -24,6 +24,10 @@
     <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
     <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.14393.0" MaxVersionTested="10.0.14393.0" />
   </Dependencies>
+
+  <Capabilities>
+    <rescap:Capability Name="runFullTrust"/>
+  </Capabilities>
 
   <Resources>
     <Resource Language="x-generate"/>
@@ -33,9 +37,10 @@
     <Application Id="App"
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
+      
       <uap:VisualElements
-        DisplayName="Paws"
-        Description="Paws - a command-line tool that pauses after executing the required command-line, enabling you to review the command-line output/response before closing / continuing."
+        DisplayName="Paws Launcher"
+        Description="Paws - a command-line tool that launches the requested command-line tool, and pauses before terminating, enabling you to review the command-line output/response before closing the Console window."
         BackgroundColor="transparent"
         Square150x150Logo="Images\Square150x150Logo.png"
         Square44x44Logo="Images\Square44x44Logo.png">
@@ -45,16 +50,15 @@
           <uap:Rotation Preference="landscape"/>
         </uap:InitialRotationPreference>
       </uap:VisualElements>
+
       <Extensions>
-        <uap3:Extension Category="windows.protocol">
-          <uap3:Protocol Name="paws" Parameters="/p &quot;%1&quot;" >
-          </uap3:Protocol >
+        <uap3:Extension Category="windows.appExecutionAlias">
+          <uap3:AppExecutionAlias>
+            <desktop:ExecutionAlias Alias="Paws.exe" />
+          </uap3:AppExecutionAlias>
         </uap3:Extension>
       </Extensions>
+      
     </Application>
   </Applications>
-
-  <Capabilities>
-    <rescap:Capability Name="runFullTrust" />
-  </Capabilities>
 </Package>
